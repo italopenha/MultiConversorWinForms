@@ -441,6 +441,166 @@ namespace MultiConversor
         }
 
         #endregion
+
+        #region Conversão Quilômetros / Milhas
+
+        private void ConverterMilhasParaQuilometros()
+        {
+            try
+            {
+                txtQuilometro.Text = string.Empty;
+
+                if (!float.TryParse(txtMilha.Text, out float milha))
+                    return;
+
+                float quilometro = milha * 1.60934f;
+                txtQuilometro.Text = quilometro.ToString("F2");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        private void ConverterQuilometrosParaMilhas()
+        {
+            try
+            {
+                txtMilha.Text = string.Empty;
+
+                if (!float.TryParse(txtQuilometro.Text, out float quilometro))
+                    return;
+
+                float milha = quilometro / 1.60934f;
+                txtMilha.Text = milha.ToString("F2");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        private void txtMilha_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            try
+            {
+                TextBox textBox = sender as TextBox;
+
+                // Permite teclas de controle (ex: backspace, delete)
+                if (char.IsControl(e.KeyChar))
+                {
+                    return;
+                }
+
+                // Permite dígitos (0-9)
+                if (char.IsDigit(e.KeyChar))
+                {
+                    return;
+                }
+
+                // Permite vírgula, mas apenas se:
+                // - ainda não houver uma vírgula
+                // - já houver ao menos um dígito antes dela
+                if (e.KeyChar == ',')
+                {
+                    // Já tem vírgula? Ou não tem número ainda? Então bloqueia
+                    if (textBox.Text.Contains(',') || textBox.Text.Length == 0 || textBox.SelectionStart == 0)
+                    {
+                        e.Handled = true;
+                    }
+
+                    return;
+                }
+
+                // Bloqueia qualquer outra tecla
+                e.Handled = true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        private void txtMilha_KeyUp(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(txtMilha.Text)) // Verifica se o campo não está vazio  
+                {
+                    ConverterMilhasParaQuilometros();
+                }
+                else
+                {
+                    txtQuilometro.Text = string.Empty; // Limpa o campo de saída se o campo de entrada estiver vazio  
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        private void txtQuilometro_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            try
+            {
+                TextBox textBox = sender as TextBox;
+
+                // Permite teclas de controle (ex: backspace, delete)
+                if (char.IsControl(e.KeyChar))
+                {
+                    return;
+                }
+
+                // Permite dígitos (0-9)
+                if (char.IsDigit(e.KeyChar))
+                {
+                    return;
+                }
+
+                // Permite vírgula, mas apenas se:
+                // - ainda não houver uma vírgula
+                // - já houver ao menos um dígito antes dela
+                if (e.KeyChar == ',')
+                {
+                    // Já tem vírgula? Ou não tem número ainda? Então bloqueia
+                    if (textBox.Text.Contains(',') || textBox.Text.Length == 0 || textBox.SelectionStart == 0)
+                    {
+                        e.Handled = true;
+                    }
+
+                    return;
+                }
+
+                // Bloqueia qualquer outra tecla
+                e.Handled = true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        private void txtQuilometro_KeyUp(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(txtQuilometro.Text)) // Verifica se o campo não está vazio  
+                {
+                    ConverterQuilometrosParaMilhas();
+                }
+                else
+                {
+                    txtMilha.Text = string.Empty; // Limpa o campo de saída se o campo de entrada estiver vazio  
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        #endregion
     }
 
     /// <summary>
