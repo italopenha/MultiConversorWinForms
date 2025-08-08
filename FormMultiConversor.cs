@@ -17,7 +17,6 @@ namespace MultiConversor
         public FormMultiConversor()
         {
             InitializeComponent();
-            txtCotacaoDolar.Enabled = false;
         }
 
         #region Conversão de Temperaturas
@@ -300,7 +299,190 @@ namespace MultiConversor
             try
             {
                 decimal cotacaoDolar = await ObterCotacaoAsync("USD", "BRL");
-                txtCotacaoDolar.Text = cotacaoDolar.ToString("F2");
+                txtCotacaoDolar.Text = $"Dólar: R$ {cotacaoDolar.ToString("F2")}";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Método para converter Euro para Real.
+        /// </summary>
+        /// <exception cref="Exception"></exception>
+        private async void ConverterEuroParaRealAsync()
+        {
+            try
+            {
+                txtRealEuro.Text = string.Empty; // Limpa o campo de saída da antes de converter
+
+                if (!decimal.TryParse(txtEuro.Text, out decimal euro))
+                    return;
+
+                decimal cotacaoEuro = await ObterCotacaoAsync("EUR", "BRL");
+                decimal real = euro * cotacaoEuro;
+                txtRealEuro.Text = real.ToString("F2");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Método para converter Real para Euro.
+        /// </summary>
+        /// <exception cref="Exception"></exception>
+        private async void ConverterRealParaEuroAsync()
+        {
+            try
+            {
+                txtEuro.Text = string.Empty; // Limpa o campo de saída da antes de converter
+
+                if (!decimal.TryParse(txtRealEuro.Text, out decimal real))
+                    return;
+
+                decimal cotacaoReal = await ObterCotacaoAsync("BRL", "EUR");
+                decimal euro = real * cotacaoReal;
+                txtEuro.Text = euro.ToString("F2");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        private void txtEuro_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            try
+            {
+                TextBox textBox = sender as TextBox;
+
+                // Permite teclas de controle (ex: backspace, delete)
+                if (char.IsControl(e.KeyChar))
+                {
+                    return;
+                }
+
+                // Permite dígitos (0-9)
+                if (char.IsDigit(e.KeyChar))
+                {
+                    return;
+                }
+
+                // Permite vírgula, mas apenas se:
+                // - ainda não houver uma vírgula
+                // - já houver ao menos um dígito antes dela
+                if (e.KeyChar == ',')
+                {
+                    // Já tem vírgula? Ou não tem número ainda? Então bloqueia
+                    if (textBox.Text.Contains(',') || textBox.Text.Length == 0 || textBox.SelectionStart == 0)
+                    {
+                        e.Handled = true;
+                    }
+
+                    return;
+                }
+
+                // Bloqueia qualquer outra tecla
+                e.Handled = true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        private void txtEuro_KeyUp(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(txtEuro.Text)) // Verifica se o campo não está vazio  
+                {
+                    ConverterEuroParaRealAsync();
+                }
+                else
+                {
+                    txtRealEuro.Text = string.Empty; // Limpa o campo de saída se o campo de entrada estiver vazio  
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        private void txtRealEuro_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            try
+            {
+                TextBox textBox = sender as TextBox;
+
+                // Permite teclas de controle (ex: backspace, delete)
+                if (char.IsControl(e.KeyChar))
+                {
+                    return;
+                }
+
+                // Permite dígitos (0-9)
+                if (char.IsDigit(e.KeyChar))
+                {
+                    return;
+                }
+
+                // Permite vírgula, mas apenas se:
+                // - ainda não houver uma vírgula
+                // - já houver ao menos um dígito antes dela
+                if (e.KeyChar == ',')
+                {
+                    // Já tem vírgula? Ou não tem número ainda? Então bloqueia
+                    if (textBox.Text.Contains(',') || textBox.Text.Length == 0 || textBox.SelectionStart == 0)
+                    {
+                        e.Handled = true;
+                    }
+
+                    return;
+                }
+
+                // Bloqueia qualquer outra tecla
+                e.Handled = true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        private void txtRealEuro_KeyUp(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(txtRealEuro.Text)) // Verifica se o campo não está vazio  
+                {
+                    ConverterRealParaEuroAsync();
+                }
+                else
+                {
+                    txtEuro.Text = string.Empty; // Limpa o campo de saída se o campo de entrada estiver vazio  
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Método para obter a cotação do Euro ao iniciar o formulário.
+        /// </summary>
+        /// <exception cref="Exception"></exception>
+        private async void ObterCotacaoEuroAsync()
+        {
+            try
+            {
+                decimal cotacaoEuro = await ObterCotacaoAsync("EUR", "BRL");
+                txtCotacaoEuro.Text = $"Euro: R$ {cotacaoEuro.ToString("F2")}";
             }
             catch (Exception ex)
             {
@@ -433,6 +615,7 @@ namespace MultiConversor
             try
             {
                 ObterCotacaoDolarAsync();
+                ObterCotacaoEuroAsync();
             }
             catch (Exception ex)
             {
@@ -444,6 +627,10 @@ namespace MultiConversor
 
         #region Conversão Quilômetros / Milhas
 
+        /// <summary>
+        /// Método para converter Milhas para Quilômetros.
+        /// </summary>
+        /// <exception cref="Exception"></exception>
         private void ConverterMilhasParaQuilometros()
         {
             try
@@ -462,6 +649,10 @@ namespace MultiConversor
             }
         }
 
+        /// <summary>
+        /// Método para converter Quilômetros para Milhas.
+        /// </summary>
+        /// <exception cref="Exception"></exception>
         private void ConverterQuilometrosParaMilhas()
         {
             try
@@ -592,6 +783,174 @@ namespace MultiConversor
                 else
                 {
                     txtMilha.Text = string.Empty; // Limpa o campo de saída se o campo de entrada estiver vazio  
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        #endregion
+
+        #region Conversão Horas / Minutos
+
+        /// <summary>
+        /// Método para converter Horas para Minutos.
+        /// </summary>
+        /// <exception cref="Exception"></exception>
+        private void ConverterHorasParaMinutos()
+        {
+            try
+            {
+                txtMinutos.Text = string.Empty;
+
+                if (!float.TryParse(txtHoras.Text, out float horas))
+                    return;
+
+                float minutos = horas * 60;
+                txtMinutos.Text = minutos.ToString("F2");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Método para converter Minutos para Horas.
+        /// </summary>
+        /// <exception cref="Exception"></exception>
+        private void ConverterMinutosParaHoras()
+        {
+            try
+            {
+                txtHoras.Text = string.Empty;
+
+                if (!float.TryParse(txtMinutos.Text, out float minutos))
+                    return;
+
+                float horas = minutos / 60;
+                txtHoras.Text = horas.ToString("F2");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        private void txtHoras_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            try
+            {
+                TextBox textBox = sender as TextBox;
+
+                // Permite teclas de controle (ex: backspace, delete)
+                if (char.IsControl(e.KeyChar))
+                {
+                    return;
+                }
+
+                // Permite dígitos (0-9)
+                if (char.IsDigit(e.KeyChar))
+                {
+                    return;
+                }
+
+                // Permite vírgula, mas apenas se:
+                // - ainda não houver uma vírgula
+                // - já houver ao menos um dígito antes dela
+                if (e.KeyChar == ',')
+                {
+                    // Já tem vírgula? Ou não tem número ainda? Então bloqueia
+                    if (textBox.Text.Contains(',') || textBox.Text.Length == 0 || textBox.SelectionStart == 0)
+                    {
+                        e.Handled = true;
+                    }
+
+                    return;
+                }
+
+                // Bloqueia qualquer outra tecla
+                e.Handled = true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        private void txtHoras_KeyUp(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(txtHoras.Text)) // Verifica se o campo não está vazio  
+                {
+                    ConverterHorasParaMinutos();
+                }
+                else
+                {
+                    txtMinutos.Text = string.Empty; // Limpa o campo de saída se o campo de entrada estiver vazio  
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        private void txtMinutos_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            try
+            {
+                TextBox textBox = sender as TextBox;
+
+                // Permite teclas de controle (ex: backspace, delete)
+                if (char.IsControl(e.KeyChar))
+                {
+                    return;
+                }
+
+                // Permite dígitos (0-9)
+                if (char.IsDigit(e.KeyChar))
+                {
+                    return;
+                }
+
+                // Permite vírgula, mas apenas se:
+                // - ainda não houver uma vírgula
+                // - já houver ao menos um dígito antes dela
+                if (e.KeyChar == ',')
+                {
+                    // Já tem vírgula? Ou não tem número ainda? Então bloqueia
+                    if (textBox.Text.Contains(',') || textBox.Text.Length == 0 || textBox.SelectionStart == 0)
+                    {
+                        e.Handled = true;
+                    }
+
+                    return;
+                }
+
+                // Bloqueia qualquer outra tecla
+                e.Handled = true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        private void txtMinutos_KeyUp(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(txtMinutos.Text)) // Verifica se o campo não está vazio  
+                {
+                    ConverterMinutosParaHoras();
+                }
+                else
+                {
+                    txtHoras.Text = string.Empty; // Limpa o campo de saída se o campo de entrada estiver vazio  
                 }
             }
             catch (Exception ex)
