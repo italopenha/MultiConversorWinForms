@@ -60,6 +60,11 @@
             this.txtRealEuro = new System.Windows.Forms.TextBox();
             this.gbEuro = new System.Windows.Forms.GroupBox();
             this.txtEuro = new System.Windows.Forms.TextBox();
+            this.gbDiasHoras = new System.Windows.Forms.GroupBox();
+            this.gbHorasDias = new System.Windows.Forms.GroupBox();
+            this.txtHorasDias = new System.Windows.Forms.TextBox();
+            this.gbDias = new System.Windows.Forms.GroupBox();
+            this.txtDias = new System.Windows.Forms.TextBox();
             this.gbFahrenheit.SuspendLayout();
             this.gbCelsius.SuspendLayout();
             this.gbTemperatura.SuspendLayout();
@@ -77,6 +82,9 @@
             this.gbEuroReal.SuspendLayout();
             this.gbRealEuro.SuspendLayout();
             this.gbEuro.SuspendLayout();
+            this.gbDiasHoras.SuspendLayout();
+            this.gbHorasDias.SuspendLayout();
+            this.gbDias.SuspendLayout();
             this.SuspendLayout();
             // 
             // gbFahrenheit
@@ -376,11 +384,64 @@
             this.txtEuro.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtEuro_KeyPress);
             this.txtEuro.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtEuro_KeyUp);
             // 
+            // gbDiasHoras
+            // 
+            this.gbDiasHoras.Controls.Add(this.gbHorasDias);
+            this.gbDiasHoras.Controls.Add(this.gbDias);
+            this.gbDiasHoras.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbDiasHoras.Location = new System.Drawing.Point(12, 227);
+            this.gbDiasHoras.Name = "gbDiasHoras";
+            this.gbDiasHoras.Size = new System.Drawing.Size(154, 161);
+            this.gbDiasHoras.TabIndex = 8;
+            this.gbDiasHoras.TabStop = false;
+            this.gbDiasHoras.Text = "Dias / Horas";
+            // 
+            // gbHorasDias
+            // 
+            this.gbHorasDias.Controls.Add(this.txtHorasDias);
+            this.gbHorasDias.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbHorasDias.Location = new System.Drawing.Point(6, 92);
+            this.gbHorasDias.Name = "gbHorasDias";
+            this.gbHorasDias.Size = new System.Drawing.Size(137, 61);
+            this.gbHorasDias.TabIndex = 1;
+            this.gbHorasDias.TabStop = false;
+            this.gbHorasDias.Text = "Horas";
+            // 
+            // txtHorasDias
+            // 
+            this.txtHorasDias.Location = new System.Drawing.Point(7, 25);
+            this.txtHorasDias.Name = "txtHorasDias";
+            this.txtHorasDias.Size = new System.Drawing.Size(124, 26);
+            this.txtHorasDias.TabIndex = 3;
+            this.txtHorasDias.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtHorasDias_KeyPress);
+            this.txtHorasDias.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtHorasDias_KeyUp);
+            // 
+            // gbDias
+            // 
+            this.gbDias.Controls.Add(this.txtDias);
+            this.gbDias.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gbDias.Location = new System.Drawing.Point(6, 25);
+            this.gbDias.Name = "gbDias";
+            this.gbDias.Size = new System.Drawing.Size(137, 61);
+            this.gbDias.TabIndex = 0;
+            this.gbDias.TabStop = false;
+            this.gbDias.Text = "Dias";
+            // 
+            // txtDias
+            // 
+            this.txtDias.Location = new System.Drawing.Point(6, 25);
+            this.txtDias.Name = "txtDias";
+            this.txtDias.Size = new System.Drawing.Size(125, 26);
+            this.txtDias.TabIndex = 2;
+            this.txtDias.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDias_KeyPress);
+            this.txtDias.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtDias_KeyUp);
+            // 
             // FormMultiConversor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1001, 639);
+            this.Controls.Add(this.gbDiasHoras);
             this.Controls.Add(this.gbEuroReal);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.gbHorasMinutos);
@@ -420,6 +481,11 @@
             this.gbRealEuro.PerformLayout();
             this.gbEuro.ResumeLayout(false);
             this.gbEuro.PerformLayout();
+            this.gbDiasHoras.ResumeLayout(false);
+            this.gbHorasDias.ResumeLayout(false);
+            this.gbHorasDias.PerformLayout();
+            this.gbDias.ResumeLayout(false);
+            this.gbDias.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -457,5 +523,10 @@
         private System.Windows.Forms.TextBox txtRealEuro;
         private System.Windows.Forms.GroupBox gbEuro;
         private System.Windows.Forms.TextBox txtEuro;
+        private System.Windows.Forms.GroupBox gbDiasHoras;
+        private System.Windows.Forms.GroupBox gbHorasDias;
+        private System.Windows.Forms.TextBox txtHorasDias;
+        private System.Windows.Forms.GroupBox gbDias;
+        private System.Windows.Forms.TextBox txtDias;
     }
 }

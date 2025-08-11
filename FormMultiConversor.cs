@@ -960,6 +960,174 @@ namespace MultiConversor
         }
 
         #endregion
+
+        #region Conversão Dias / Horas
+
+        /// <summary>
+        /// Método para converter Dias para Horas.
+        /// </summary>
+        /// <exception cref="Exception"></exception>
+        private void ConverterDiasParaHoras()
+        {
+            try
+            {
+                txtHorasDias.Text = string.Empty;
+
+                if (!float.TryParse(txtDias.Text, out float dias))
+                    return;
+
+                float horas = dias * 24;
+                txtHorasDias.Text = horas.ToString("F2");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Método para converter Horas para Dias.
+        /// </summary>
+        /// <exception cref="Exception"></exception>
+        private void ConverterHorasParaDias()
+        {
+            try
+            {
+                txtDias.Text = string.Empty;
+
+                if (!float.TryParse(txtHorasDias.Text, out float horas))
+                    return;
+
+                float dias = horas / 24;
+                txtDias.Text = dias.ToString("F2");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        #endregion
+
+        private void txtDias_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            try
+            {
+                TextBox textBox = sender as TextBox;
+
+                // Permite teclas de controle (ex: backspace, delete)
+                if (char.IsControl(e.KeyChar))
+                {
+                    return;
+                }
+
+                // Permite dígitos (0-9)
+                if (char.IsDigit(e.KeyChar))
+                {
+                    return;
+                }
+
+                // Permite vírgula, mas apenas se:
+                // - ainda não houver uma vírgula
+                // - já houver ao menos um dígito antes dela
+                if (e.KeyChar == ',')
+                {
+                    // Já tem vírgula? Ou não tem número ainda? Então bloqueia
+                    if (textBox.Text.Contains(',') || textBox.Text.Length == 0 || textBox.SelectionStart == 0)
+                    {
+                        e.Handled = true;
+                    }
+
+                    return;
+                }
+
+                // Bloqueia qualquer outra tecla
+                e.Handled = true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        private void txtDias_KeyUp(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(txtDias.Text)) // Verifica se o campo não está vazio  
+                {
+                    ConverterDiasParaHoras();
+                }
+                else
+                {
+                    txtHorasDias.Text = string.Empty; // Limpa o campo de saída se o campo de entrada estiver vazio  
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        private void txtHorasDias_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            try
+            {
+                TextBox textBox = sender as TextBox;
+
+                // Permite teclas de controle (ex: backspace, delete)
+                if (char.IsControl(e.KeyChar))
+                {
+                    return;
+                }
+
+                // Permite dígitos (0-9)
+                if (char.IsDigit(e.KeyChar))
+                {
+                    return;
+                }
+
+                // Permite vírgula, mas apenas se:
+                // - ainda não houver uma vírgula
+                // - já houver ao menos um dígito antes dela
+                if (e.KeyChar == ',')
+                {
+                    // Já tem vírgula? Ou não tem número ainda? Então bloqueia
+                    if (textBox.Text.Contains(',') || textBox.Text.Length == 0 || textBox.SelectionStart == 0)
+                    {
+                        e.Handled = true;
+                    }
+
+                    return;
+                }
+
+                // Bloqueia qualquer outra tecla
+                e.Handled = true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        private void txtHorasDias_KeyUp(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(txtHorasDias.Text)) // Verifica se o campo não está vazio  
+                {
+                    ConverterHorasParaDias();
+                }
+                else
+                {
+                    txtDias.Text = string.Empty; // Limpa o campo de saída se o campo de entrada estiver vazio  
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 
     /// <summary>
