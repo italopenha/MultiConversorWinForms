@@ -5,10 +5,8 @@
 <p>Fahrenheit - Celsius</p>
 <p>Dólar - Real</p>
 <p>Euro - Real</p>
-<p>Dólar - Real</p>
 <p>Milhas - Quilômetros</p>
 <p>Horas - Minutos</p>
-<p>Dólar - Real</p>
 <p>Dias - Horas</p>
 
 <h2>Interface do Sistema</h2>
